@@ -1,10 +1,12 @@
 #include <stdio.h> // pre-processor directives
 #include <string>      // insert the header files
 #include <iostream>
-using namespace std; // makes code easier to read
+
+#include "database.h"
 
 int main(int argc, char *argv[])  // command line args
 {
+	using namespace std; // makes code easier to read
 	string input;
 	for (;;) {
 		cout << "0: Add student \n";
@@ -18,6 +20,11 @@ int main(int argc, char *argv[])  // command line args
 		cin >> input;
 		if (input == "q") {
 			break;
+		}
+
+		if (input == "0") {
+			RHMMUH005::add_student("Mike", "John", "dffaa", "32 13 31 42 42");
+			cout << "added";
 		}
 	}
 
