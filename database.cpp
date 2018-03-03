@@ -24,3 +24,9 @@ void RHMMUH005::add_student(std::string name, std::string surname, std::string s
 
 	records.push_back(student);
 }
+
+void RHMMUH005::print_records() {
+	for (int i = 0; i < records.size(); i++) {
+		std::cout << records[i].name << "\n";
+	}
+}

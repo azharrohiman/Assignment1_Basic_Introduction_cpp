@@ -4,9 +4,11 @@
 #define DATABASE_H
 
 #include <string>
+#include <iostream>
 
 namespace RHMMUH005 {
 	void add_student(std::string name, std::string surname, std::string studentnumber, std::string classRecord);
+	void print_records();
 }
 
 #endif

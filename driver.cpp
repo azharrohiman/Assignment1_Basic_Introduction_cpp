@@ -24,7 +24,8 @@ int main(int argc, char *argv[])  // command line args
 
 		if (input == "0") {
 			RHMMUH005::add_student("Mike", "John", "dffaa", "32 13 31 42 42");
-			cout << "added";
+			RHMMUH005::print_records();
+			cout << "added" << endl;
 		}
 	}
 
