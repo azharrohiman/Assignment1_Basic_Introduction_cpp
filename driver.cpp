@@ -24,11 +24,13 @@ int main(int argc, char *argv[])  // command line args
 
 		cin >> input;
 		cin.ignore();
+		//cout << endl;
 		if (input == "q") {
 			break;
 		}
 
 		if (input == "0") {
+			cout << endl;
 			cout << "Enter student's first name: \n";
 			getline(cin, name);
 			cout << "Enter student's last name: \n";
@@ -44,12 +46,32 @@ int main(int argc, char *argv[])  // command line args
 		}
 
 		if (input == "1") {
+			cout << endl;
 			RHMMUH005::read_from_database();
 		}
 
 		if (input == "2") {
-			cout << "Writing to file..." << endl;
+			cout << endl;
+			//cout << "Writing to file..." << endl;
 			RHMMUH005::write_to_database();
+		}
+
+		if (input == "3") {
+			cout << endl;
+			string number;
+			cout << "Enter student number: \n";
+			getline(cin, number);
+			cout << "\n";
+			RHMMUH005::print_records(number);
+		}
+
+		if (input == "4") {
+			cout << endl;
+			string number;
+			cout << "Enter student number: \n";
+			getline(cin, number);
+			cout << "\n";
+			RHMMUH005::grade_student(number);	
 		}
 	}
 
