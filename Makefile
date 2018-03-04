@@ -9,5 +9,8 @@ driver.o: driver.cpp
 database.o: database.cpp database.h
 	$(CC) -c database.cpp
 
+run: driver
+	./driver
+
 clean:
 	rm *.o driver

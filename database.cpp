@@ -228,22 +228,3 @@ void RHMMUH005::grade_student(std::string studentnumber) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
