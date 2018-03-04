@@ -1,4 +1,4 @@
-// Fib.h - header file: this should be included in any source file that needs fib()
+// database.h - header file: this should be included in any source file that needs database() functions
 
 #ifndef DATABASE_H
 #define DATABASE_H

@@ -38,9 +38,9 @@ int main(int argc, char *argv[])  // command line args
 			getline(cin, studentnumber);
 			cout << "Enter student's grades: \n";
 			getline(cin, grade);
-
-			RHMMUH005::add_student(name, surname, studentnumber, grade);
 			cout << endl;
+			RHMMUH005::add_student(name, surname, studentnumber, grade);
+			//cout << endl;
 		}
 
 		if (input == "1") {

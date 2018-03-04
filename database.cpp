@@ -1,4 +1,4 @@
-// Fib.cpp - implementation file for fib() function
+// database.cpp - implementation file for database() functions
 
 #include <iostream>
 #include <fstream>
@@ -20,6 +20,7 @@ std::vector<StudentRecord> records;
 std::vector<StudentRecord> databaseRec;
 
 void RHMMUH005::add_student(std::string name, std::string surname, std::string studentnumber, std::string classRecord) {
+	std::cout << "function addStudent() called \n";
 	StudentRecord student;
 	student.name = name;
 	student.surname = surname;
@@ -63,6 +64,7 @@ void RHMMUH005::add_student(std::string name, std::string surname, std::string s
 }
 
 void RHMMUH005::read_from_database(){
+	std::cout << "function readFromDatabase() called \n";
 	databaseRec.clear();
 	StudentRecord data;
 	std::string filename = "Student Database";
@@ -100,9 +102,11 @@ void RHMMUH005::read_from_database(){
 			}
 		}
 	}
+	std::cout << std::endl;
 }
 
 void RHMMUH005::write_to_database() {
+	std::cout << "function writeToDatabase() called \n";
 	if (records.size() == 0) {
 		std::cout << "No student record to add to database \n";
 	}
@@ -147,6 +151,7 @@ void RHMMUH005::write_to_database() {
 }
 
 void RHMMUH005::overwrite_existing_student_number() {
+	std::cout << "function overwriteExistingStudent() called \n";
 	std::ofstream myfile;
 
 	std::cout << "Updating student's information... \n";
@@ -163,14 +168,15 @@ void RHMMUH005::overwrite_existing_student_number() {
 }
 
 void RHMMUH005::print_records(std::string studentnumber) {
+	std::cout << "function displayStudentData() called \n";
 	read_from_database();
 	bool flag = false;
 	for (int i = 0; i < databaseRec.size(); i++) {
 		if (databaseRec[i].studentnumber == studentnumber) {
-			std::cout << databaseRec[i].name << "\n";
-			std::cout << databaseRec[i].surname << "\n";
-			std::cout << databaseRec[i].studentnumber << "\n";
-			std::cout << databaseRec[i].classRecord << "\n";
+			std::cout << "Name: " << databaseRec[i].name << "\n";
+			std::cout << "Surname: "<< databaseRec[i].surname << "\n";
+			std::cout << "Student Number: " << databaseRec[i].studentnumber << "\n";
+			std::cout << "Class Record: " << databaseRec[i].classRecord << "\n";
 			flag = true;
 			break;
 		}
@@ -185,6 +191,7 @@ void RHMMUH005::print_records(std::string studentnumber) {
 }
 
 void RHMMUH005::grade_student(std::string studentnumber) {
+	std::cout << "function gradeStudent() called \n";
 	read_from_database();
 	bool flag = false;
 	std::string grades;
