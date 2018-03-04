@@ -19,15 +19,6 @@ std::vector<StudentRecord> records;
 
 std::vector<StudentRecord> databaseRec;
 
-//struct DatabaseRecord {
-//	std::string name;
-//	std::string surname;
-//	std::string studentnumber;
-//	std::string classRecord;
-//}
-
-//std::vector<DatabaseRecord> databaseRecords;
-
 void RHMMUH005::add_student(std::string name, std::string surname, std::string studentnumber, std::string classRecord) {
 	StudentRecord student;
 	student.name = name;
@@ -35,27 +26,44 @@ void RHMMUH005::add_student(std::string name, std::string surname, std::string s
 	student.studentnumber = studentnumber;
 	student.classRecord = classRecord;
 
-	if (records.size() == 0) {
-		records.push_back(student);
+	read_from_database();
+	bool flag = false;
+	for (int i = 0; i < databaseRec.size(); i++) {
+		if (databaseRec[i].studentnumber == studentnumber) {
+			flag = true;
+			databaseRec[i].name = name;
+			databaseRec[i].surname = surname;
+			databaseRec[i].studentnumber = studentnumber;
+			databaseRec[i].classRecord = classRecord;
+		}
 	}
-	
-	for (int i = 0; i < records.size(); i++) {
-		if (records[i].studentnumber == studentnumber) {
-			records[i].name = name;
-			records[i].surname = surname;
-			records[i].studentnumber = studentnumber;
-			records[i].classRecord = classRecord;
-			break;
+	if (flag) {
+		overwrite_existing_student_number();
+	}
+	else {
+		if (records.size() == 0) {
+			records.push_back(student);
 		}
 		else {
-			records.push_back(student);
-			break;
+			for (int i = 0; i < records.size(); i++) {
+				if (records[i].studentnumber == studentnumber) {
+					records[i].name = name;
+					records[i].surname = surname;
+					records[i].studentnumber = studentnumber;
+					records[i].classRecord = classRecord;
+					break;
+				}
+				else {
+					records.push_back(student);
+					break;
+				}
+			}
 		}
 	}
-	std::cout << records.size() << std::endl;
 }
 
 void RHMMUH005::read_from_database(){
+	databaseRec.clear();
 	StudentRecord data;
 	std::string filename = "Student Database";
 	std::string word;
@@ -66,17 +74,13 @@ void RHMMUH005::read_from_database(){
 		{ std::cout << "Couldn't open " << filename << std::endl; }
 
 	while(getline(in, word)) {
-		//std::cout << word << std::endl;
 		if (word.find("Student #") != std::string::npos) {
-			//std::cout << "found";
 			continue;
 		}
 		else {
 			if (word.find("Name") != std::string::npos) {
 				size_t name_found = word.find_last_of(":");
-				//std::cout << name_found << std::endl;
 				data.name = word.substr(name_found+2);
-				//std::cout << data.name << endl;
 			}
 
 			if (word.find("Surname") != std::string::npos) {
@@ -95,16 +99,7 @@ void RHMMUH005::read_from_database(){
 				databaseRec.push_back(data);
 			}
 		}
-		//databaseRec.push_back(data);
-		//databaseRecords.push_back(data);
 	}
-	//for (int i = 0; i < databaseRec.size(); i++) {
-		//std::cout << "\n";
-		//std::cout << databaseRec[i].name << "\n";
-		//std::cout << databaseRec[i].surname << "\n";
-		//std::cout << databaseRec[i].studentnumber << "\n";
-		//std::cout << databaseRec[i].classRecord << "\n";
-	//}
 }
 
 void RHMMUH005::write_to_database() {
@@ -132,11 +127,12 @@ void RHMMUH005::write_to_database() {
 			myfile.close();
 		}
 		else {
+			read_from_database();
+			int number_of_students = databaseRec.size();
 			myfile.open("Student Database", std::ofstream::app);
 			std::cout << "Adding to file... \n";
-			//std::cout << records.size() << std::endl;
 			for (int i = 0; i < records.size(); i++) {
-				myfile << "Student #" << i+1 << "\n";
+				myfile << "Student #" << ++number_of_students << "\n";
 				myfile << "Name: " << records[i].name << "\n";
 				myfile << "Surname: " << records[i].surname << "\n";
 				myfile << "Student Number: " << records[i].studentnumber << "\n";
@@ -146,7 +142,24 @@ void RHMMUH005::write_to_database() {
 			myfile.close();
 		}
 	}
+	records.clear();
 	std::cout << std::endl;
+}
+
+void RHMMUH005::overwrite_existing_student_number() {
+	std::ofstream myfile;
+
+	std::cout << "Updating student's information... \n";
+	myfile.open("Student Database");
+	for (int i = 0; i < databaseRec.size(); i++) {
+		myfile << "Student #" << i+1 << "\n";
+		myfile << "Name: " << databaseRec[i].name << "\n";
+		myfile << "Surname: " << databaseRec[i].surname << "\n";
+		myfile << "Student Number: " << databaseRec[i].studentnumber << "\n";
+		myfile << "Class Record: " << databaseRec[i].classRecord << "\n";
+		myfile << "\n";
+	}
+	myfile.close();
 }
 
 void RHMMUH005::print_records(std::string studentnumber) {
@@ -158,7 +171,6 @@ void RHMMUH005::print_records(std::string studentnumber) {
 			std::cout << databaseRec[i].surname << "\n";
 			std::cout << databaseRec[i].studentnumber << "\n";
 			std::cout << databaseRec[i].classRecord << "\n";
-			//std::cout << "\n";
 			flag = true;
 			break;
 		}
@@ -167,7 +179,7 @@ void RHMMUH005::print_records(std::string studentnumber) {
 		}
 	}
 	if (!flag) {
-		std::cout << "Student not found on database! \n";
+		std::cout << "Student not found on database! Try saving to database before displaying student data\n";
 	}
 	std::cout << std::endl;
 }
@@ -176,10 +188,13 @@ void RHMMUH005::grade_student(std::string studentnumber) {
 	read_from_database();
 	bool flag = false;
 	std::string grades;
+	std::string name;
+	std::string surname;
 	for (int i = 0; i < databaseRec.size(); i++) {
 		if (databaseRec[i].studentnumber == studentnumber) {
 			grades = databaseRec[i].classRecord;
-			//std::cout << databaseRec[i].classRecord << "\n";
+			name = databaseRec[i].name;
+			surname = databaseRec[i].surname;
 			flag = true;
 			break;
 		}
@@ -188,7 +203,7 @@ void RHMMUH005::grade_student(std::string studentnumber) {
 		}
 	}
 	if (!flag) {
-		std::cout << "Student not found on database! \n";
+		std::cout << "Student not found on database! Try saving to database before printing average \n";
 	}
 	else {
 		int total = 0;
@@ -199,9 +214,8 @@ void RHMMUH005::grade_student(std::string studentnumber) {
 			int n;
 			iss >> n;
 			total += n;
-			//std::cout << "value=" << n << std::endl;
 		}
-		std::cout << "Average grade of student is " << total/count << std::endl;
+		std::cout << "Average grade of " << name + " " + surname + ", " << studentnumber << " is " << total/count << std::endl;
 	}
 	std::cout << std::endl;
 }

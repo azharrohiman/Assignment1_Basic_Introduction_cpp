@@ -24,7 +24,6 @@ int main(int argc, char *argv[])  // command line args
 
 		cin >> input;
 		cin.ignore();
-		//cout << endl;
 		if (input == "q") {
 			break;
 		}
@@ -41,8 +40,7 @@ int main(int argc, char *argv[])  // command line args
 			getline(cin, grade);
 
 			RHMMUH005::add_student(name, surname, studentnumber, grade);
-			//RHMMUH005::add_student("Mike", "John", "dffaa", "32 13 31 42 42");
-			//RHMMUH005::print_records();
+			cout << endl;
 		}
 
 		if (input == "1") {
@@ -52,7 +50,6 @@ int main(int argc, char *argv[])  // command line args
 
 		if (input == "2") {
 			cout << endl;
-			//cout << "Writing to file..." << endl;
 			RHMMUH005::write_to_database();
 		}
 
