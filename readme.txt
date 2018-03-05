@@ -8,7 +8,7 @@ driver.cpp: contains the code which displays the menu and prompts user to make a
 
 Instructions on how to compile, run and use the program:
 
-1) cd to folder containing cpp and h files.
+1) cd to folder containing cpp and h files. 'cd Assignment1'
 
 2) type 'make command' in terminal to create object and executable files
 
